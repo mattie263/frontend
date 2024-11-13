@@ -1,8 +1,6 @@
 package uk.ac.sheffield.team10.service;
 import java.util.List;
 import java.util.Optional;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import uk.ac.sheffield.team10.model.AdultMember;
 import uk.ac.sheffield.team10.repository.AdultMemberRepository;
@@ -44,9 +42,5 @@ public class AdultMemberService {
 
     public void deleteAdultMember(Long id) {
         adultMemberRepository.deleteById(id);
-    }
-
-    public Page<AdultMember> getAdultMembers(Pageable pageable) {
-        return adultMemberRepository.findAll(pageable);
     }
 }

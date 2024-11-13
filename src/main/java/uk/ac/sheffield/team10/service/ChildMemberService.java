@@ -43,8 +43,4 @@ public class ChildMemberService {
     public void deleteChildMember(Long id) {
         childMemberRepository.deleteById(id);
     }
-
-    public Page<ChildMember> getChildMembers(Pageable pageable) {
-        return childMemberRepository.findAll(pageable);
-    }
 }
