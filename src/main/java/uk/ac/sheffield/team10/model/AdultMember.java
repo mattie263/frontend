@@ -20,19 +20,20 @@ public class AdultMember extends Member {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @OneToMany(mappedBy = "parent")
+    @OneToMany(mappedBy = "parentId")
     private Set<ChildMember> childAccounts = new HashSet<>();
 
     public AdultMember() {}
 
     public AdultMember(
-        Long memberID,
+        Long memberId,
         String firstName,
         String lastName,
         String email,
         String phoneNumber,
         String password) {
-        super(memberID, firstName, lastName);
+
+        super(memberId, firstName, lastName);
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.password = password;

@@ -11,7 +11,7 @@ public abstract class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long memberID;
+    private Long memberId;
 
     @Column(name = "firstName", nullable = false)
     private String firstName;
@@ -21,18 +21,18 @@ public abstract class Member {
 
     public Member() {}
 
-    public Member(Long memberID, String firstName, String lastName) {
-        this.memberID = memberID;
+    public Member(Long memberId, String firstName, String lastName) {
+        this.memberId = memberId;
         this.firstName = firstName;
         this.lastName = lastName;
     }
 
-    public Long getMemberID() {
-        return memberID;
+    public Long getMemberId() {
+        return memberId;
     }
 
-    public void setMemberID(Long memberID) {
-        this.memberID = memberID;
+    public void setMemberId(Long memberId) {
+        this.memberId = memberId;
     }
 
     public String getFirstName() {

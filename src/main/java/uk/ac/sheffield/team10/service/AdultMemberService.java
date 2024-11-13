@@ -19,7 +19,7 @@ public class AdultMemberService {
         return adultMemberRepository.findAll();
     }
 
-    public Optional<AdultMember> getAdultMemberById(Long id) {
+    public Optional<AdultMember> findAdultMemberById(Long id) {
         return adultMemberRepository.findById(id);
     }
 

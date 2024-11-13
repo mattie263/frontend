@@ -16,53 +16,60 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 import uk.ac.sheffield.team10.model.AdultMember;
+import uk.ac.sheffield.team10.model.ChildMember;
 import uk.ac.sheffield.team10.service.AdultMemberService;
+import uk.ac.sheffield.team10.service.ChildMemberService;
 
 @RestController
-@RequestMapping("/api/adult-member")
-public class AdultMemberController {
+@RequestMapping("/api/child-member")
+public class ChildMemberController {
+    private final ChildMemberService childMemberService;
     private final AdultMemberService adultMemberService;
 
-    public AdultMemberController(AdultMemberService adultMemberService) {
+    public ChildMemberController(ChildMemberService childMemberService, AdultMemberService adultMemberService) {
+        this.childMemberService = childMemberService;
         this.adultMemberService = adultMemberService;
     }
 
     @GetMapping
-    public List<AdultMember> getAllAdultMembers() {
-        return adultMemberService.getAllAdultMembers();
+    public List<ChildMember> getAllAdultMembers() {
+        return childMemberService.getAllChildMembers();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AdultMember> findAdultMemberById(Long id) {
-        Optional<AdultMember> adultMember = adultMemberService.findAdultMemberById(id);
-        return adultMember.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<ChildMember> getChildMemberById(Long id) {
+        Optional<ChildMember> childMember = childMemberService.getChildMemberById(id);
+        return childMember.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<AdultMember> createAdultMember(@RequestBody AdultMember adultMember) {
-        AdultMember savedAdultMember = adultMemberService.saveAdultMember(adultMember);
-        return new ResponseEntity<>(savedAdultMember, HttpStatus.CREATED);
+    public ResponseEntity<ChildMember> createChildMember(@RequestBody ChildMember childMember) {
+        adultMemberService.findAdultMemberById(childMember.getParentId())
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Parent not found"));
+        ChildMember savedChildMember = childMemberService.saveChildMember(childMember);
+        return new ResponseEntity<>(savedChildMember, HttpStatus.CREATED);
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<AdultMember> updateAdultMember(@PathVariable Long id, @RequestBody AdultMember updatedAdultMember) {
+    public ResponseEntity<ChildMember> updateChildMember(@PathVariable Long id, @RequestBody ChildMember updatedChildMember) {
         try {
-            AdultMember savedAdultMember = adultMemberService.updateAdultMember(id, updatedAdultMember);
-            return ResponseEntity.ok(savedAdultMember);
+            ChildMember savedChildMember = childMemberService.updateChildMember(id, updatedChildMember);
+            return ResponseEntity.ok(savedChildMember);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<AdultMember> deleteAdultMember(@PathVariable Long id) {
-        adultMemberService.deleteAdultMember(id);
+    public ResponseEntity<ChildMember> deleteChildMember(@PathVariable Long id) {
+        childMemberService.deleteChildMember(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/paged")
-    public Page<AdultMember> getAdultMembers(
+    public Page<ChildMember> getChildMembers(
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "5") int size,
         @RequestParam(defaultValue = "id,asc") String[] sort) {
@@ -72,6 +79,6 @@ public class AdultMemberController {
 
         Pageable pageable = PageRequest.of(page, size, sortBy);
 
-        return adultMemberService.getAdultMembers(pageable);
+        return childMemberService.getChildMembers(pageable);
     }
 }
