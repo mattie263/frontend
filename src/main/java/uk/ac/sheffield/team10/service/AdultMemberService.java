@@ -34,6 +34,8 @@ public class AdultMemberService {
             adultMember.setEmail(updatedAdultMember.getEmail());
             adultMember.setPhoneNumber(updatedAdultMember.getPhoneNumber());
             adultMember.setPassword(updatedAdultMember.getPassword());
+            adultMember.setCommittee(updatedAdultMember.isCommittee());
+            adultMember.setDirector(updatedAdultMember.isDirector());
             return adultMemberRepository.save(adultMember);
         } else {
             throw new RuntimeException("Adult Member Not Found");

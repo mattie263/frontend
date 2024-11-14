@@ -20,6 +20,12 @@ public class AdultMember extends Member {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Column(name = "isDirector")
+    private boolean isDirector;
+
+    @Column(name = "isCommittee")
+    private boolean isCommittee;
+
     @OneToMany(mappedBy = "parentId")
     private Set<ChildMember> childAccounts = new HashSet<>();
 
@@ -69,5 +75,21 @@ public class AdultMember extends Member {
 
     public void setChildAccounts(Set<ChildMember> childAccounts) {
         this.childAccounts = childAccounts;
+    }
+
+    public boolean isDirector() {
+        return isDirector;
+    }
+
+    public void setDirector(boolean isDirector) {
+        this.isDirector = isDirector;
+    }
+
+    public boolean isCommittee() {
+        return isCommittee;
+    }
+
+    public void setCommittee(boolean isCommittee) {
+        this.isCommittee = isCommittee;
     }
 }
