@@ -14,19 +14,19 @@ public class BandMembershipService {
         this.bandMembershipRepository = bandMembershipRepository;
     }
 
-    public List<BandMembership> getAllBandMemberships() {
+    public List<BandMembership> getAll() {
         return bandMembershipRepository.findAll();
     }
 
-    public Optional<BandMembership> getBandMembershipById(Long id) {
+    public Optional<BandMembership> getById(Long id) {
         return bandMembershipRepository.findById(id);
     }
 
-    public BandMembership saveBandMembership(BandMembership bandMembership) {
+    public BandMembership save(BandMembership bandMembership) {
         return bandMembershipRepository.save(bandMembership);
     }
 
-    public BandMembership updateBandMembership(Long id, BandMembership updatedBandMembership) {
+    public BandMembership update(Long id, BandMembership updatedBandMembership) {
         Optional<BandMembership> bandMembershipOptional = bandMembershipRepository.findById(id);
         if (bandMembershipOptional.isPresent()) {
             BandMembership bandMembership = bandMembershipOptional.get();
@@ -39,7 +39,7 @@ public class BandMembershipService {
         }
     }
 
-    public void deleteBandMembership(Long id) {
+    public void delete(Long id) {
         bandMembershipRepository.deleteById(id);
     }
 }

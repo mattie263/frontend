@@ -24,26 +24,26 @@ public class SeniorBandController {
     }
 
     @GetMapping
-    public List<SeniorBand> getAllSeniorBands() {
-        return seniorBandService.getAllSeniorBands();
+    public List<SeniorBand> getAll() {
+        return seniorBandService.getAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SeniorBand> getSeniorBandById(Long id) {
-        Optional<SeniorBand> seniorBand = seniorBandService.findSeniorBandById(id);
+    public ResponseEntity<SeniorBand> getById(Long id) {
+        Optional<SeniorBand> seniorBand = seniorBandService.findById(id);
         return seniorBand.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<SeniorBand> createSeniorBand(@RequestBody SeniorBand seniorBand) {
-        SeniorBand savedSeniorBand = seniorBandService.saveSeniorBand(seniorBand);
+    public ResponseEntity<SeniorBand> create(@RequestBody SeniorBand seniorBand) {
+        SeniorBand savedSeniorBand = seniorBandService.save(seniorBand);
         return new ResponseEntity<>(savedSeniorBand, HttpStatus.CREATED);
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<SeniorBand> updateSeniorBand(@PathVariable Long id, @RequestBody SeniorBand updatedSeniorBand) {
+    public ResponseEntity<SeniorBand> update(@PathVariable Long id, @RequestBody SeniorBand updatedSeniorBand) {
         try {
-            SeniorBand savedSeniorBand = seniorBandService.updateSeniorBand(id, updatedSeniorBand);
+            SeniorBand savedSeniorBand = seniorBandService.update(id, updatedSeniorBand);
             return ResponseEntity.ok(savedSeniorBand);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
@@ -51,8 +51,8 @@ public class SeniorBandController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<SeniorBand> deleteSeniorBand(@PathVariable Long id) {
-        seniorBandService.deleteSeniorBand(id);
+    public ResponseEntity<SeniorBand> delete(@PathVariable Long id) {
+        seniorBandService.delete(id);
         return ResponseEntity.noContent().build();
     }
 }

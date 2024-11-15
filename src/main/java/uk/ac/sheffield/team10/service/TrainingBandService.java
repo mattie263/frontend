@@ -14,19 +14,19 @@ public class TrainingBandService {
         this.trainingBandRepository = trainingBandRepository;
     }
 
-    public List<TrainingBand> getAllTrainingBands() {
+    public List<TrainingBand> getAll() {
         return trainingBandRepository.findAll();
     }
 
-    public Optional<TrainingBand> findTrainingBandById(Long id) {
+    public Optional<TrainingBand> findById(Long id) {
         return trainingBandRepository.findById(id);
     }
 
-    public TrainingBand saveTrainingBand(TrainingBand trainingBand) {
+    public TrainingBand save(TrainingBand trainingBand) {
         return trainingBandRepository.save(trainingBand);
     }
 
-    public TrainingBand updateTrainingBand(Long id, TrainingBand updatedTrainingBand) {
+    public TrainingBand update(Long id, TrainingBand updatedTrainingBand) {
         Optional<TrainingBand> trainingBandOptional = trainingBandRepository.findById(id);
         if (trainingBandOptional.isPresent()) {
             TrainingBand trainingBand = trainingBandOptional.get();
@@ -37,7 +37,7 @@ public class TrainingBandService {
         }
     }
 
-    public void deleteTrainingBand(Long id) {
+    public void delete(Long id) {
         trainingBandRepository.deleteById(id);
     }
 }

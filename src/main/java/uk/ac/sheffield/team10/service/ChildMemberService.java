@@ -13,19 +13,19 @@ public class ChildMemberService {
         this.childMemberRepository = childMemberRepository;
     }
 
-    public List<ChildMember> getAllChildMembers() {
+    public List<ChildMember> getAll() {
         return childMemberRepository.findAll();
     }
 
-    public Optional<ChildMember> getChildMemberById(Long id) {
+    public Optional<ChildMember> getById(Long id) {
         return childMemberRepository.findById(id);
     }
 
-    public ChildMember saveChildMember(ChildMember childMember) {
+    public ChildMember save(ChildMember childMember) {
         return childMemberRepository.save(childMember);
     }
 
-    public ChildMember updateChildMember(Long id, ChildMember updatedChildMember) {
+    public ChildMember update(Long id, ChildMember updatedChildMember) {
         Optional<ChildMember> childMemberOptional = childMemberRepository.findById(id);
         if (childMemberOptional.isPresent()) {
             ChildMember childMember = childMemberOptional.get();
@@ -38,7 +38,7 @@ public class ChildMemberService {
         }
     }
 
-    public void deleteChildMember(Long id) {
+    public void delete(Long id) {
         childMemberRepository.deleteById(id);
     }
 }

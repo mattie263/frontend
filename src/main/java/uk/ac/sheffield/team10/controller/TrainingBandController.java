@@ -3,8 +3,6 @@ package uk.ac.sheffield.team10.controller;
 import java.util.List;
 import java.util.Optional;
 
-import javax.swing.plaf.basic.BasicTreeUI.TreeHomeAction;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,14 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
-import uk.ac.sheffield.team10.model.ChildMember;
-import uk.ac.sheffield.team10.model.SeniorBand;
 import uk.ac.sheffield.team10.model.TrainingBand;
-import uk.ac.sheffield.team10.repository.TrainingBandRepository;
-import uk.ac.sheffield.team10.service.AdultMemberService;
-import uk.ac.sheffield.team10.service.ChildMemberService;
-import uk.ac.sheffield.team10.service.SeniorBandService;
 import uk.ac.sheffield.team10.service.TrainingBandService;
 
 @RestController
@@ -34,26 +25,26 @@ public class TrainingBandController {
     }
 
     @GetMapping
-    public List<TrainingBand> getAllTrainingBands() {
-        return trainingBandService.getAllTrainingBands();
+    public List<TrainingBand> getAll() {
+        return trainingBandService.getAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TrainingBand> getTrainingBandById(Long id) {
-        Optional<TrainingBand> trainingBand = trainingBandService.findTrainingBandById(id);
+    public ResponseEntity<TrainingBand> getById(Long id) {
+        Optional<TrainingBand> trainingBand = trainingBandService.findById(id);
         return trainingBand.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<TrainingBand> createTrainingBand(@RequestBody TrainingBand trainingBand) {
-        TrainingBand savedTrainingBand = trainingBandService.saveTrainingBand(trainingBand);
+    public ResponseEntity<TrainingBand> create(@RequestBody TrainingBand trainingBand) {
+        TrainingBand savedTrainingBand = trainingBandService.save(trainingBand);
         return new ResponseEntity<>(savedTrainingBand, HttpStatus.CREATED);
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<TrainingBand> updateTrainingBand(@PathVariable Long id, @RequestBody TrainingBand updatedTrainingBand) {
+    public ResponseEntity<TrainingBand> update(@PathVariable Long id, @RequestBody TrainingBand updatedTrainingBand) {
         try {
-            TrainingBand savedTrainingBand = trainingBandService.updateTrainingBand(id, updatedTrainingBand);
+            TrainingBand savedTrainingBand = trainingBandService.update(id, updatedTrainingBand);
             return ResponseEntity.ok(savedTrainingBand);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
@@ -61,8 +52,8 @@ public class TrainingBandController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<TrainingBand> deleteTrainingBand(@PathVariable Long id) {
-        trainingBandService.deleteTrainingBand(id);
+    public ResponseEntity<TrainingBand> delete(@PathVariable Long id) {
+        trainingBandService.delete(id);
         return ResponseEntity.noContent().build();
     }
 }

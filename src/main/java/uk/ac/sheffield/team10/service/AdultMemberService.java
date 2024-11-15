@@ -13,19 +13,19 @@ public class AdultMemberService {
         this.adultMemberRepository = adultMemberRepository;
     }
 
-    public List<AdultMember> getAllAdultMembers() {
+    public List<AdultMember> getAll() {
         return adultMemberRepository.findAll();
     }
 
-    public Optional<AdultMember> findAdultMemberById(Long id) {
+    public Optional<AdultMember> findById(Long id) {
         return adultMemberRepository.findById(id);
     }
 
-    public AdultMember saveAdultMember(AdultMember adultMember) {
+    public AdultMember save(AdultMember adultMember) {
         return adultMemberRepository.save(adultMember);
     }
 
-    public AdultMember updateAdultMember(Long id, AdultMember updatedAdultMember) {
+    public AdultMember update(Long id, AdultMember updatedAdultMember) {
         Optional<AdultMember> adultMemberOptional = adultMemberRepository.findById(id);
         if (adultMemberOptional.isPresent()) {
             AdultMember adultMember = adultMemberOptional.get();
@@ -42,7 +42,7 @@ public class AdultMemberService {
         }
     }
 
-    public void deleteAdultMember(Long id) {
+    public void delete(Long id) {
         adultMemberRepository.deleteById(id);
     }
 }

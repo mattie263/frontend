@@ -28,34 +28,34 @@ public class ChildMemberController {
     }
 
     @GetMapping
-    public List<ChildMember> getAllChildMembers() {
-        return childMemberService.getAllChildMembers();
+    public List<ChildMember> getAll() {
+        return childMemberService.getAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ChildMember> getChildMemberById(Long id) {
-        Optional<ChildMember> childMember = childMemberService.getChildMemberById(id);
+    public ResponseEntity<ChildMember> getById(Long id) {
+        Optional<ChildMember> childMember = childMemberService.getById(id);
         return childMember.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<ChildMember> createChildMember(@RequestBody ChildMember childMember) {
+    public ResponseEntity<ChildMember> create(@RequestBody ChildMember childMember) {
         Long parentId = childMember.getParentId();
 
-        adultMemberService.findAdultMemberById(parentId)
+        adultMemberService.findById(parentId)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Parent not found -> id=" + parentId));
-        ChildMember savedChildMember = childMemberService.saveChildMember(childMember);
+        ChildMember savedChildMember = childMemberService.save(childMember);
         return new ResponseEntity<>(savedChildMember, HttpStatus.CREATED);
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<ChildMember> updateChildMember(@PathVariable Long id, @RequestBody ChildMember updatedChildMember) {
+    public ResponseEntity<ChildMember> update(@PathVariable Long id, @RequestBody ChildMember updatedChildMember) {
         try {
             Long parentId = updatedChildMember.getParentId();
-            adultMemberService.findAdultMemberById(parentId)
+            adultMemberService.findById(parentId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Parent not found -> id=" + parentId));
 
-            ChildMember savedChildMember = childMemberService.updateChildMember(id, updatedChildMember);
+            ChildMember savedChildMember = childMemberService.update(id, updatedChildMember);
             return ResponseEntity.ok(savedChildMember);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
@@ -63,8 +63,8 @@ public class ChildMemberController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ChildMember> deleteChildMember(@PathVariable Long id) {
-        childMemberService.deleteChildMember(id);
+    public ResponseEntity<ChildMember> delete(@PathVariable Long id) {
+        childMemberService.delete(id);
         return ResponseEntity.noContent().build();
     }
 }

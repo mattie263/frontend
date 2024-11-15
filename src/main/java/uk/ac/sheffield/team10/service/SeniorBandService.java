@@ -14,19 +14,19 @@ public class SeniorBandService {
         this.seniorBandRepository = seniorBandRepository;
     }
 
-    public List<SeniorBand> getAllSeniorBands() {
+    public List<SeniorBand> getAll() {
         return seniorBandRepository.findAll();
     }
 
-    public Optional<SeniorBand> findSeniorBandById(Long id) {
+    public Optional<SeniorBand> findById(Long id) {
         return seniorBandRepository.findById(id);
     }
 
-    public SeniorBand saveSeniorBand(SeniorBand seniorBand) {
+    public SeniorBand save(SeniorBand seniorBand) {
         return seniorBandRepository.save(seniorBand);
     }
 
-    public SeniorBand updateSeniorBand(Long id, SeniorBand updatedSeniorBand) {
+    public SeniorBand update(Long id, SeniorBand updatedSeniorBand) {
         Optional<SeniorBand> seniorBandOptional = seniorBandRepository.findById(id);
         if (seniorBandOptional.isPresent()) {
             SeniorBand seniorBand = seniorBandOptional.get();
@@ -37,7 +37,7 @@ public class SeniorBandService {
         }
     }
 
-    public void deleteSeniorBand(Long id) {
+    public void delete(Long id) {
         seniorBandRepository.deleteById(id);
     }
 }

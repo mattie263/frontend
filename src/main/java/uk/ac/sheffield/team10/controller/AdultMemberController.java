@@ -25,30 +25,30 @@ public class AdultMemberController {
     }
 
     @GetMapping
-    public List<AdultMember> getAllAdultMembers() {
-        return adultMemberService.getAllAdultMembers();
+    public List<AdultMember> getAll() {
+        return adultMemberService.getAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AdultMember> findAdultMemberById(Long id) {
-        Optional<AdultMember> adultMember = adultMemberService.findAdultMemberById(id);
+    public ResponseEntity<AdultMember> findById(Long id) {
+        Optional<AdultMember> adultMember = adultMemberService.findById(id);
         return adultMember.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<AdultMember> createAdultMember(@RequestBody AdultMember adultMember) {
-        AdultMember savedAdultMember = adultMemberService.saveAdultMember(adultMember);
+    public ResponseEntity<AdultMember> create(@RequestBody AdultMember adultMember) {
+        AdultMember savedAdultMember = adultMemberService.save(adultMember);
         return new ResponseEntity<>(savedAdultMember, HttpStatus.CREATED);
     }
 
 
     //TODO remove later for bulk adding accounts.
     @PostMapping("/bulk")
-    public ResponseEntity<List<AdultMember>> createMultipleAdultMembers(@RequestBody List<AdultMember> adultMembers) {
+    public ResponseEntity<List<AdultMember>> createMultiple(@RequestBody List<AdultMember> adultMembers) {
         List<AdultMember> savedAdultMembers = new ArrayList<>();
 
         for (AdultMember adultMember : adultMembers) {
-            AdultMember savedAdultMember = adultMemberService.saveAdultMember(adultMember);
+            AdultMember savedAdultMember = adultMemberService.save(adultMember);
             savedAdultMembers.add(savedAdultMember);
         }
 
@@ -56,9 +56,9 @@ public class AdultMemberController {
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<AdultMember> updateAdultMember(@PathVariable Long id, @RequestBody AdultMember updatedAdultMember) {
+    public ResponseEntity<AdultMember> update(@PathVariable Long id, @RequestBody AdultMember updatedAdultMember) {
         try {
-            AdultMember savedAdultMember = adultMemberService.updateAdultMember(id, updatedAdultMember);
+            AdultMember savedAdultMember = adultMemberService.update(id, updatedAdultMember);
             return ResponseEntity.ok(savedAdultMember);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
@@ -66,8 +66,8 @@ public class AdultMemberController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<AdultMember> deleteAdultMember(@PathVariable Long id) {
-        adultMemberService.deleteAdultMember(id);
+    public ResponseEntity<AdultMember> delete(@PathVariable Long id) {
+        adultMemberService.delete(id);
         return ResponseEntity.noContent().build();
     }
 }

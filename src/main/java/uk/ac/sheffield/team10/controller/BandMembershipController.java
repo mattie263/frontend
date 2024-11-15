@@ -39,53 +39,53 @@ public class BandMembershipController {
     }
 
     @GetMapping
-    public List<BandMembership> getAllBandMemberships() {
-        return bandMembershipService.getAllBandMemberships();
+    public List<BandMembership> getAll() {
+        return bandMembershipService.getAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<BandMembership> getBandMembershipById(Long id) {
-        Optional<BandMembership> bandMembership = bandMembershipService.getBandMembershipById(id);
+    public ResponseEntity<BandMembership> getById(Long id) {
+        Optional<BandMembership> bandMembership = bandMembershipService.getById(id);
         return bandMembership.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<BandMembership> createBandMembership(@RequestBody BandMembership bandMembership) {
-        adultMemberService.findAdultMemberById(bandMembership.getMemberId())
+    public ResponseEntity<BandMembership> create(@RequestBody BandMembership bandMembership) {
+        adultMemberService.findById(bandMembership.getMemberId())
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Adult account not found -> id=" + bandMembership.getMemberId()));
 
         Long seniorId = bandMembership.getSeniorBandId();
         Long trainingId = bandMembership.getTrainingBandId();
 
         if (seniorId != null) {
-            seniorBandService.findSeniorBandById(seniorId)
+            seniorBandService.findById(seniorId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Senior Band not found -> id=" + seniorId));
         }
 
         if (trainingId != null) {
-            trainingBandService.findTrainingBandById(trainingId)
+            trainingBandService.findById(trainingId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Training Band not found -> id=" + trainingId));
         }
-        BandMembership savedBandMembership = bandMembershipService.saveBandMembership(bandMembership);
+        BandMembership savedBandMembership = bandMembershipService.save(bandMembership);
         return new ResponseEntity<>(savedBandMembership, HttpStatus.CREATED);
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<BandMembership> updateBandMembership(@PathVariable Long id, @RequestBody BandMembership updatedBandMembership) {
+    public ResponseEntity<BandMembership> update(@PathVariable Long id, @RequestBody BandMembership updatedBandMembership) {
         try {
             Long seniorId = updatedBandMembership.getSeniorBandId();
             Long trainingId = updatedBandMembership.getTrainingBandId();
 
             if (seniorId != null) {
-                seniorBandService.findSeniorBandById(seniorId)
+                seniorBandService.findById(seniorId)
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Senior Band not found -> id=" + seniorId));
             }
 
             if (trainingId != null) {
-                trainingBandService.findTrainingBandById(trainingId)
+                trainingBandService.findById(trainingId)
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Training Band not found -> id=" + trainingId));
             }
-            BandMembership savedBandMembership = bandMembershipService.updateBandMembership(id, updatedBandMembership);
+            BandMembership savedBandMembership = bandMembershipService.update(id, updatedBandMembership);
             return ResponseEntity.ok(savedBandMembership);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
@@ -93,8 +93,8 @@ public class BandMembershipController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<BandMembership> deleteBandMembership(@PathVariable Long id) {
-        bandMembershipService.deleteBandMembership(id);
+    public ResponseEntity<BandMembership> delete(@PathVariable Long id) {
+        bandMembershipService.delete(id);
         return ResponseEntity.noContent().build();
     }
 }
