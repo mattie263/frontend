@@ -38,7 +38,7 @@ public class AdultMemberService {
             adultMember.setDirector(updatedAdultMember.isDirector());
             return adultMemberRepository.save(adultMember);
         } else {
-            throw new RuntimeException("Adult Member Not Found");
+            throw new RuntimeException("Adult Member Not Found -> id=" + id);
         }
     }
 

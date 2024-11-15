@@ -1,5 +1,6 @@
 package uk.ac.sheffield.team10.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.http.HttpStatus;
@@ -38,6 +39,20 @@ public class AdultMemberController {
     public ResponseEntity<AdultMember> createAdultMember(@RequestBody AdultMember adultMember) {
         AdultMember savedAdultMember = adultMemberService.saveAdultMember(adultMember);
         return new ResponseEntity<>(savedAdultMember, HttpStatus.CREATED);
+    }
+
+
+    //TODO remove later for bulk adding accounts.
+    @PostMapping("/bulk")
+    public ResponseEntity<List<AdultMember>> createMultipleAdultMembers(@RequestBody List<AdultMember> adultMembers) {
+        List<AdultMember> savedAdultMembers = new ArrayList<>();
+
+        for (AdultMember adultMember : adultMembers) {
+            AdultMember savedAdultMember = adultMemberService.saveAdultMember(adultMember);
+            savedAdultMembers.add(savedAdultMember);
+        }
+
+        return new ResponseEntity<>(savedAdultMembers, HttpStatus.CREATED);
     }
 
     @PostMapping("/{id}")
