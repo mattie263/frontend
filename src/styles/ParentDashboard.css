@@ -1,0 +1,11 @@
+.parent-dashboard {
+    padding: 20px;
+}
+
+.parent-dashboard h2 {
+    margin-bottom: 20px;
+}
+
+.parent-dashboard .btn {
+    margin: 5px;
+}
